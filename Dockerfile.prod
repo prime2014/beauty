@@ -16,25 +16,25 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 
-WORKDIR /beauty/
+WORKDIR /app/api
 
 
-WORKDIR /app
+WORKDIR /app/beauty
 
 ENV PATH ./node_modules/.bin/:$PATH
 
-COPY ./api/requirements.txt /beauty/
+COPY ./api/requirements.txt app/api/
 
 RUN python -m pip install --upgrade pip
 
-RUN pip install -r ./api/requirements.txt && useradd -ms /bin/bash 1000
+RUN pip install -r requirements.txt && useradd -ms /bin/bash 1000
 
-COPY --chown=1000:1000 ./api/* /beauty/
+COPY --chown=1000:1000 ./api/* /app/api/
 
 
-COPY ./beauty/package.json /app/
+COPY ./beauty/package.json /app/beauty/
 
-COPY ./beauty/* /app/
+COPY ./beauty/* /app/beauty/
 
 RUN npm install
 
