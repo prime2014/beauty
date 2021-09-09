@@ -15,21 +15,21 @@ RUN apt-get update \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
 
-
-WORKDIR /app/beauty
-
 WORKDIR /app/api
-
-
-ENV PATH ./node_modules/.bin/:$PATH
 
 COPY ./api/requirements.txt app/api/
 
-RUN python -m pip install --upgrade pip -r requirements.txt
+RUN python -m pip install --upgrade pip
 
 RUN pip install -r requirements.txt && useradd -ms /bin/bash 1000
 
 COPY --chown=1000:1000 ./api/* /app/api/
+
+USER 1000
+
+WORKDIR /app/beauty
+
+ENV PATH ./node_modules/.bin/:$PATH
 
 
 COPY ./beauty/package.json /app/beauty/
@@ -38,5 +38,3 @@ COPY ./beauty/* /app/beauty/
 
 RUN npm install
 
-
-USER 1000
