@@ -29,13 +29,15 @@ APPS_DIR = BASE_DIR / "apps"
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+import os
+
 
 ALLOWED_HOSTS = [
-    "beauties7.herokuapp.com"
+    os.environ.get("PRODUCTION_HOST")
 ]
 
 
@@ -165,12 +167,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://127.0.0.1:3000"
+    "http://127.0.0.1:3000",
+    os.environ.get("PRODUCTION_HOST")
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
-    "http://127.0.0.1:3000"
+    "http://127.0.0.1:3000",
+    os.environ.get("PRODUCTION_HOST")
 ]
 
 
@@ -214,3 +218,10 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated"
     ]
 }
+
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
