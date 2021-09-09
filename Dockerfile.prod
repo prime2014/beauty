@@ -16,10 +16,10 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 
+WORKDIR /app/beauty
+
 WORKDIR /app/api
 
-
-WORKDIR /app/beauty
 
 ENV PATH ./node_modules/.bin/:$PATH
 
