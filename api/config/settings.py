@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-import environ, socket
+import environ, socket, os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -168,13 +168,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    os.environ.get("PRODUCTION_HOST")
+    "https://beauties7.herokuapp.com"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    os.environ.get("PRODUCTION_HOST")
+    "https://beauties7.herokuapp.com"
 ]
 
 
