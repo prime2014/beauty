@@ -1,0 +1,84 @@
+version: "3"
+
+volumes:
+  local_beauty_database: {}
+
+services:
+  postgres:
+    image: postgres:12
+    container_name: beauty_local_postgres
+    env_file:
+      - ./api/.env
+    volumes:
+      - local_beauty_database:/var/lib/postgresql/data
+      - ~/Desktop/be2:/var/lib/postgresql/db
+    ports:
+      - "5432:5432"
+    networks:
+      - beauty-bridge
+
+  django: &django
+    restart: always
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+    image: beauty_django_image
+    container_name: beauty_local_django
+    env_file:
+      ./api/.env
+    volumes:
+      - ./api/:/beauty
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - postgres
+    networks:
+      - beauty-bridge
+
+  react:
+    build:
+      context: .
+      dockerfile: ./beauty/Dockerfile
+    image: local_beauty_react
+    container_name: beauty_local_react
+    volumes:
+      - ./beauty/:/app
+    env_file:
+      - ./beauty/.env
+    ports:
+      - "3000:3000"
+    command: >
+      sh -c "npm start"
+    depends_on:
+      - django
+    networks:
+      - beauty-bridge
+
+  redis:
+    image: redis:alpine
+    container_name: beauty_local_redis
+    networks:
+      - beauty-bridge
+
+  celery:
+    <<: *django
+    restart: on-failure
+    image: beauty_celery_image
+    container_name: beauty_local_celery
+    ports: []
+    command: >
+      sh -c "celery -A config.celery_app worker -l DEBUG &&
+             celery -A config.celery_app beat -l INFO"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - beauty-bridge
+
+networks:
+  beauty-bridge:
+    driver: bridge
