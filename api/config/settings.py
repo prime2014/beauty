@@ -37,7 +37,7 @@ import os
 
 
 ALLOWED_HOSTS = [
-    os.environ.get("PRODUCTION_HOST")
+    "https://crustyapp.herokuapp.com"
 ]
 
 
@@ -168,13 +168,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "https://beauties7.herokuapp.com"
+    "https://beauties7.herokuapp.com",
+    "https://crustyapp.herokuapp.com"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "https://beauties7.herokuapp.com"
+    "https://beauties7.herokuapp.com",
+    "https://crustyapp.herokuapp.com"
 ]
 
 
