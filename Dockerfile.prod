@@ -29,9 +29,6 @@ WORKDIR /beauty
 
 ENV PATH ./node_modules/.bin/:$PATH
 
-
-COPY ./beauty/package.json /beauty/
-
 COPY ./beauty/* /beauty/
 
 RUN npm install
