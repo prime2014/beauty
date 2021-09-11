@@ -29,7 +29,7 @@ WORKDIR /beauty
 
 ENV PATH ./node_modules/.bin/:$PATH
 
-COPY ./beauty/* /beauty/
+COPY --chown=1000:1000 ./beauty/* /beauty/
 
 RUN npm install
 
