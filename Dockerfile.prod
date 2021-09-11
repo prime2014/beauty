@@ -15,15 +15,13 @@ RUN apt-get update \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app/
+WORKDIR /app
 
-COPY ./api/requirements.txt app/
+COPY --chown=1000:1000 ./api/* /app/
 
 RUN python -m pip install --upgrade pip
 
-RUN pip install -r ./api/requirements.txt && useradd -ms /bin/bash 1000
-
-COPY --chown=1000:1000 ./api/* /app/
+RUN pip install -r requirements.txt && useradd -ms /bin/bash 1000
 
 USER 1000
 
