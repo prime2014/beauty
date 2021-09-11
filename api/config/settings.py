@@ -37,7 +37,7 @@ import os
 
 
 ALLOWED_HOSTS = [
-    "https://crustyapp.herokuapp.com"
+    "https://creess.herokuapp.com"
 ]
 
 
@@ -169,7 +169,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "https://beauties7.herokuapp.com",
-    "https://crustyapp.herokuapp.com"
+    "https://creess.herokuapp.com"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
