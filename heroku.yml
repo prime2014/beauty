@@ -1,7 +1,5 @@
 build:
   docker:
-    web:
-      - ./api/Dockerfile
-      - ./beauty/Dockerfile
+    web: Dockerfile.prod
 run:
   web: python3 api/manage.py runserver 0.0.0.0:8000
