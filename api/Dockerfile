@@ -22,7 +22,7 @@ COPY ./api/requirements.txt /beauty/
 
 RUN python -m pip install --upgrade pip
 
-RUN pip install -r ./api/requirements.txt && useradd -ms /bin/bash 1000
+RUN pip install -r requirements.txt && useradd -ms /bin/bash 1000
 
 COPY --chown=1000:1000 ./api/* /beauty/
 
